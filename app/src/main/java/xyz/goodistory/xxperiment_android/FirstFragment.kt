@@ -1,5 +1,6 @@
 package xyz.goodistory.xxperiment_android
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -34,6 +35,11 @@ class FirstFragment : Fragment() {
 
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        }
+
+        // Camera2Activity を起動
+        binding.buttonCamera2.setOnClickListener {
+            startActivity(Intent(context, Camera2Activity::class.java))
         }
     }
 
