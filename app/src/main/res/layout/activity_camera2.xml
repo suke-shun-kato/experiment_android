@@ -7,14 +7,25 @@
     android:layout_height="match_parent"
     tools:context=".Camera2Activity">
 
-    <!-- TODO text をちゃんとする -->
+    <!--    TODO text をちゃんとする-->
     <TextView
+        android:id="@+id/camera2TopTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:text="aaaaaa"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="TextView"
+        android:background="@color/design_default_color_primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <SurfaceView
+        android:id="@+id/camera2SurfaceView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/camera2TopTextView"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
