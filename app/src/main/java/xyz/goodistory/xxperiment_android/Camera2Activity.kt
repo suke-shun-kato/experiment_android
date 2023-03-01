@@ -51,7 +51,7 @@ class Camera2Activity : AppCompatActivity() {
                 // 引数はカメラのモード。例えばTEMPLATE_MANUALだとフォーカスなど手動設定になる。今回はプレビュー用のモードに設定。
                 .createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
 
-            // レイアウトの SurfaceView をセッション先の対象に設定
+            // レイアウトの SurfaceView の対象に設定
             captureRequestBuilder.addTarget(binding.camera2SurfaceView.holder.surface)
 //            captureRequestBuilder.addTarget(imageReader.surface)  // 復活させる
 
@@ -175,6 +175,11 @@ class Camera2Activity : AppCompatActivity() {
         cameraManager.openCamera(cameraId, deviceStateCallback, null)
     }
 
+    /**
+     * 複数ある画像サイズからサイズを取得する
+     * @param sizeIndex サイズ配列から何番目のサイズを取得するか
+     * @param cameraCharacteristics カメラのCameraCharacteristics
+     */
     @Suppress("SameParameterValue")
     private fun getCameraImageSize(sizeIndex: Int, cameraCharacteristics: CameraCharacteristics): Size {
         val streamConfigurationMap: StreamConfigurationMap = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) as StreamConfigurationMap
@@ -200,7 +205,7 @@ class Camera2Activity : AppCompatActivity() {
      */
     @Suppress("SameParameterValue")
     private fun getFirstCameraIdFacing(
-        cameraManager: CameraManager,facing: Int = CameraMetadata.LENS_FACING_BACK): String? {
+        cameraManager: CameraManager, facing: Int = CameraMetadata.LENS_FACING_BACK): String? {
 
         // デバイスにある最低限の機能があるカメラのcameraID（複数）を取得する
         val cameraIds: List<String> = cameraManager.cameraIdList.filter {
