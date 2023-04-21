@@ -5,12 +5,15 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.PackageManager
+import android.graphics.ImageFormat
 import android.hardware.camera2.*
 import android.hardware.camera2.params.OutputConfiguration
 import android.hardware.camera2.params.SessionConfiguration
 import android.hardware.camera2.params.StreamConfigurationMap
+import android.media.ImageReader
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.util.Size
 import android.view.Surface
 import android.view.SurfaceHolder
@@ -23,15 +26,15 @@ import xyz.goodistory.xxperiment_android.databinding.ActivityCamera2Binding
 
 class Camera2Activity : AppCompatActivity() {
     companion object {
-//        const val MAX_IMAGES = 1
-//        const val IMAGE_FORMAT = ImageFormat.YUV_420_888
+        const val MAX_IMAGES = 1
+        const val IMAGE_FORMAT = ImageFormat.YUV_420_888
         const val SIZE_INDEX = 0
-        const val LENS_FACING = CameraMetadata.LENS_FACING_FRONT
+        const val LENS_FACING = CameraMetadata.LENS_FACING_BACK
         const val NEED_PERMISSION: String = Manifest.permission.CAMERA
     }
 
     private lateinit var binding: ActivityCamera2Binding
-//    private lateinit var imageReader: ImageReader
+    private lateinit var imageReader: ImageReader
     private lateinit var cameraId: String
     private val cameraManager: CameraManager
         get() = getSystemService(Context.CAMERA_SERVICE) as CameraManager
@@ -53,7 +56,7 @@ class Camera2Activity : AppCompatActivity() {
 
             // レイアウトの SurfaceView の対象に設定
             captureRequestBuilder.addTarget(binding.camera2SurfaceView.holder.surface)
-//            captureRequestBuilder.addTarget(imageReader.surface)  // 復活させる
+            captureRequestBuilder.addTarget(imageReader.surface)
 
             // 設定した対象（surfaceView） にカメラから動画を流す
             cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), null, null)
@@ -67,8 +70,8 @@ class Camera2Activity : AppCompatActivity() {
      */
     private val deviceStateCallback = object : CameraDevice.StateCallback() {
         override fun onOpened(cameraDevice: CameraDevice) {
-            val surfaces: List<Surface> = listOf(binding.camera2SurfaceView.holder.surface)
-//            val surfaces: List<Surface> = listOf(binding.camera2SurfaceView.holder.surface, imageReader.surface)
+//            val surfaces: List<Surface> = listOf(binding.camera2SurfaceView.holder.surface)
+            val surfaces: List<Surface> = listOf(binding.camera2SurfaceView.holder.surface, imageReader.surface)
 
             createCaptureSession(cameraDevice, surfaces)
         }
@@ -104,11 +107,9 @@ class Camera2Activity : AppCompatActivity() {
         }
     }
 
-
-
-//    private val onImageAvailableListener = ImageReader.OnImageAvailableListener {
-////            Log.d("ssss", "fffff")
-//    }
+    private val onImageAvailableListener = ImageReader.OnImageAvailableListener {
+            Log.d("ssss", "fffff")
+    }
 
     /**
      * パーミッション許可ダイアログでボタンを押した後の処理
@@ -135,7 +136,8 @@ class Camera2Activity : AppCompatActivity() {
 
         // SurfaceViewをセット
         binding.camera2SurfaceView.initSurfaceView(size, cameraCharacteristics)
-//        setImageReader(cameraManager, cameraId, MAX_IMAGES, IMAGE_FORMAT, SIZE_INDEX)
+
+        setImageReader(size, MAX_IMAGES, IMAGE_FORMAT)
 
         // パーミッションをチェックして許可OKの場合はカメラを起動
         when {
@@ -189,14 +191,14 @@ class Camera2Activity : AppCompatActivity() {
     }
 
 
-//    @Suppress("SameParameterValue")
-//    private fun setImageReader(
-//        cameraManager: CameraManager, cameraId: String, maxImages: Int, imageFormat: Int, sizeIndex: Int) {
-//
-//        // imageReaderを作成
-//        imageReader = ImageReader.newInstance(size.width, size.height, imageFormat, maxImages)
-//        imageReader.setOnImageAvailableListener(onImageAvailableListener, null)
-//    }
+    @Suppress("SameParameterValue")
+    private fun setImageReader(
+        size: Size, maxImages: Int, imageFormat: Int) {
+
+        // imageReaderを作成
+        imageReader = ImageReader.newInstance(size.width, size.height, imageFormat, maxImages)
+        imageReader.setOnImageAvailableListener(onImageAvailableListener, null)
+    }
 
 
     /**
