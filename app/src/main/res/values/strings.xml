@@ -15,4 +15,9 @@
 
     <string name="camera2_rationale_dialog_message">カメラプレビュー機能を使用するにはカメラの権限が必要です。</string>
     <string name="camera2_rationale_dialog_ok_button">OK</string>
+
+    <string name="coroutine_test_button_parallel">並列</string>
+    <string name="coroutine_test_button_series">直列</string>
+    <string name="thread_test_button">スレッド</string>
+    <string name="coroutine_test_text_result_init">・・・</string>
 </resources>
