@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import xyz.goodistory.xxperiment_android.coroutene.CoroutineTestActivity
 import xyz.goodistory.xxperiment_android.databinding.FragmentFirstBinding
 
 /**
@@ -40,6 +41,11 @@ class FirstFragment : Fragment() {
         // Camera2Activity を起動
         binding.buttonCamera2.setOnClickListener {
             startActivity(Intent(context, Camera2Activity::class.java))
+        }
+
+
+        binding.buttonCoroutineTest.setOnClickListener {
+            startActivity(Intent(context, CoroutineTestActivity::class.java))
         }
     }
 
